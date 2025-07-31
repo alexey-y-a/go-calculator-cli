@@ -24,11 +24,11 @@ func main() {
 
 	switch strings.ToUpper(operation) {
 	case "AVG":
-		fmt.Printf("Среднее: %2f\n", calculateAvg(numbers))
+		fmt.Printf("Среднее: %.2f\n", calculateAvg(numbers))
 	case "SUM":
-		fmt.Printf("Среднее: %2f\n", calculateSum(numbers))
+		fmt.Printf("Сумма: %.2f\n", calculateSum(numbers))
 	case "MED":
-		fmt.Printf("Среднее: %2f\n", calculateMedian(numbers))
+		fmt.Printf("Медиана: %.2f\n", calculateMedian(numbers))
 	default:
 		fmt.Println("Неизвестная операция. Допустимые: AVG, SUM, MED")
 	}
