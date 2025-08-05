@@ -8,9 +8,21 @@ import (
 )
 
 func main() {
+	operations := map[string]func([]float64) float64{
+		"AVG": calculateAvg,
+		"SUM": calculateSum,
+		"MED": calculateMedian,
+	}
+
 	var operation string
 	fmt.Print("Выберите операцию (AVG/SUM/MED): ")
 	fmt.Scanln(&operation)
+
+	calcFunc, exists := operations[strings.ToUpper(operation)]
+	if !exists {
+		fmt.Println("Неизвестная операция. Допустимые:", getAvailableOperations(operations))
+		return
+	}
 
 	fmt.Print("Введите числа через запятую: ")
 	var input string
@@ -22,17 +34,16 @@ func main() {
 		return
 	}
 
-	switch strings.ToUpper(operation) {
-	case "AVG":
-		fmt.Printf("Среднее: %.2f\n", calculateAvg(numbers))
-	case "SUM":
-		fmt.Printf("Сумма: %.2f\n", calculateSum(numbers))
-	case "MED":
-		fmt.Printf("Медиана: %.2f\n", calculateMedian(numbers))
-	default:
-		fmt.Println("Неизвестная операция. Допустимые: AVG, SUM, MED")
-	}
+	result := calcFunc(numbers)
+	fmt.Printf("%s: %.2f\n", strings.ToUpper(operation), result)
+}
 
+func getAvailableOperations(ops map[string]func([]float64) float64) string {
+	keys := make([]string, 0, len(ops))
+	for k := range ops {
+		keys = append(keys, k)
+	}
+	return strings.Join(keys, ", ")
 }
 
 func parseNumbers(input string) ([]float64, error) {
